@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Boolib</string>
+
+    <string name="about_title">About Boolib</string>
+    <string name="about_app_name">Boolib App</string>
+    <string name="app_version">0.0.1a</string>
+    <string name="about_description">Some text describing app</string>
+    <string name="about_author_title">Author:</string>
+    <string name="author_name">Nicolay Khimich</string>
+    <string-array name="author_info">
+        <item>Author info 1</item>
+        <item>Author info 2</item>
+    </string-array>
+    <string name="facts_title">Facts:</string>
+    <string-array name="facts_about_author">
+        <item>Something one</item>
+        <item>Something two</item>
+    </string-array>
+</resources>

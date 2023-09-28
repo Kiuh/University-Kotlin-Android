@@ -9,13 +9,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -60,28 +57,34 @@ fun AboutScreen(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         textAlign = TextAlign.Left,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
                     )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { destinationsNavigator?.navigate(HomeDestination()) }) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = null
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            imageVector = Icons.Filled.Info,
-                            contentDescription = null
-                        )
-                    }
                 },
                 scrollBehavior = scrollBehavior,
             )
         },
+        bottomBar = {
+            BottomAppBar(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.primary,
+            ) {
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth(0.4f)
+                        .padding(6.dp),
+                    onClick = { destinationsNavigator?.navigate(HomeDestination()) }) {
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(2.dp),
+                        text = stringResource(id = R.string.back_from_about),
+                    )
+                }
+
+            }
+        }
     ) { paddingValues ->
         Column(
             modifier = Modifier

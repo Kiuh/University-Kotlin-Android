@@ -16,4 +16,5 @@
         <item>Something one</item>
         <item>Something two</item>
     </string-array>
+    <string name="back_from_about">To home page</string>
 </resources>

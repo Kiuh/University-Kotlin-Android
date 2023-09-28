@@ -1,4 +1,4 @@
-package by.bsuir.khimich.boolib
+package by.bsuir.khimich.boolib.models
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
@@ -18,6 +18,8 @@ class HomeViewModel : ViewModel() {
     val items: SnapshotStateList<Book> = DefaultBooks.toMutableStateList()
 
     fun onClickRemoveBook(book: Book) = items.remove(book)
+    fun onClickAddBook(book: Book) = items.add(book)
+    fun onClickChangeBook(book: Book) = items.add(book)
 
     private companion object {
 

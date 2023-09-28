@@ -1,4 +1,4 @@
-package by.bsuir.khimich.boolib
+package by.bsuir.khimich.boolib.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -31,14 +31,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import by.bsuir.khimich.boolib.destinations.HomeDestination
+import by.bsuir.khimich.boolib.R
 import by.bsuir.khimich.boolib.ui.theme.BoolibTheme
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutScreen(
-    destinationsNavigator: DestinationsNavigator?
+    toHomeScreen: (() -> Unit)?
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
@@ -74,7 +73,7 @@ fun AboutScreen(
                     modifier = Modifier
                         .fillMaxWidth(0.4f)
                         .padding(6.dp),
-                    onClick = { destinationsNavigator?.navigate(HomeDestination()) }) {
+                    onClick = { toHomeScreen?.invoke() }) {
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()

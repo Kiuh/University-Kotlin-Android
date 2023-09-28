@@ -1,4 +1,4 @@
-package by.bsuir.khimich.boolib
+package by.bsuir.khimich.boolib.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,11 +21,19 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,7 +43,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import by.bsuir.khimich.boolib.R
+import by.bsuir.khimich.boolib.models.Book
+import by.bsuir.khimich.boolib.models.HomeViewModel
 import by.bsuir.khimich.boolib.ui.theme.BoolibTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+
+enum class BottomSheetMode {
+    Add,
+    Change
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,10 +61,18 @@ fun HomeScreen(
     toAboutScreen: (() -> Unit)?,
     books: List<Book>?,
     onRemove: ((Book) -> Unit)?,
-    onRedact: ((Book) -> Unit)?,
-    onAdd: (() -> Unit)?,
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+
+    val sheetState = rememberModalBottomSheetState()
+    val scope = rememberCoroutineScope()
+
+    var showBottomSheet by remember {
+        mutableStateOf(false)
+    }
+    var bottomSheetMode by remember {
+        mutableStateOf(BottomSheetMode.Add)
+    }
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -92,8 +118,11 @@ fun HomeScreen(
             }
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { if (onAdd != null) onAdd() }) {
-                Icon(Icons.Default.Add, contentDescription = "Add")
+            FloatingActionButton(onClick = {
+                showBottomSheet = true
+                bottomSheetMode = BottomSheetMode.Add
+            }) {
+                Icon(Icons.Default.Add, contentDescription = null)
             }
         }
     ) { paddingValues ->
@@ -109,9 +138,22 @@ fun HomeScreen(
         ) {
             if (books != null) {
                 items(books.count(), key = { books[it].id }) { index ->
-                    BookCard(books[index], onRemove, onRedact)
+                    BookCard(books[index], onRemove) { _ ->
+                        showBottomSheet = true
+                        bottomSheetMode = BottomSheetMode.Change
+                    }
                 }
             }
+        }
+
+        if (showBottomSheet) {
+            BottomSheet(
+                setShowBottomSheet = { value ->
+                    showBottomSheet = value
+                },
+                sheetState = sheetState,
+                scope = scope
+            )
         }
     }
 }
@@ -172,12 +214,38 @@ fun BookCard(book: Book, onRemove: ((Book) -> Unit)?, onRedact: ((Book) -> Unit)
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BottomSheet(
+    setShowBottomSheet: (Boolean) -> Unit,
+    sheetState: SheetState,
+    scope: CoroutineScope
+) {
+    ModalBottomSheet(
+        onDismissRequest = {
+            setShowBottomSheet(false)
+        },
+        sheetState = sheetState
+    ) {
+        // Sheet content
+        Button(onClick = {
+            scope.launch { sheetState.hide() }.invokeOnCompletion {
+                if (!sheetState.isVisible) {
+                    setShowBottomSheet(false)
+                }
+            }
+        }) {
+            Text("Hide bottom sheet")
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
     BoolibTheme {
         HomeScreen(
-            null, HomeViewModel().items, null, null, null
+            null, HomeViewModel().items, null
         )
     }
 }

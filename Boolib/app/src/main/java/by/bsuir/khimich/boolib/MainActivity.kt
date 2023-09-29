@@ -16,16 +16,10 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            BoolibTheme {
-                DestinationsNavHost(navGraph = NavGraphs.root)
-            }
-        }
+        setContent { BoolibTheme { DestinationsNavHost(navGraph = NavGraphs.root) } }
     }
 }
 
@@ -46,5 +40,3 @@ fun Home(destinationsNavigator: DestinationsNavigator) {
 fun About(destinationsNavigator: DestinationsNavigator) {
     AboutScreen(toHomeScreen = { destinationsNavigator.navigate(HomeDestination()) })
 }
-
-

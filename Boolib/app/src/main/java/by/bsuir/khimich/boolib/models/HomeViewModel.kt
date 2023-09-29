@@ -18,14 +18,17 @@ class HomeViewModel : ViewModel() {
     val items: SnapshotStateList<Book> = DefaultBooks.toMutableStateList()
 
     fun onClickRemoveBook(book: Book) = items.remove(book)
+
     fun onClickAddBook(book: Book) = items.add(book)
+
     fun onClickChangeBook(book: Book) = items.add(book)
 
     private companion object {
 
-        private val DefaultBooks = listOf(
-            Book("Chomsky", false, 0, listOf("Robin")),
-            Book("Midnight", false, 0, listOf("Hoodwink"))
-        )
+        private val DefaultBooks =
+            listOf(
+                Book("Chomsky", false, 0, listOf("Robin", "Goblin")),
+                Book("Midnight", false, 0, listOf("Hoodwink", "Goode wink"))
+            )
     }
 }

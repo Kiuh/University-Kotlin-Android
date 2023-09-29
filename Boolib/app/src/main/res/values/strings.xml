@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Boolib</string>
 
+    <!-- About screen strings !-->
     <string name="about_title">About Boolib</string>
     <string name="about_app_name">Boolib App</string>
     <string name="app_version">0.0.1a</string>
@@ -17,4 +18,10 @@
         <item>Something two</item>
     </string-array>
     <string name="back_from_about">To home page</string>
+
+    <!-- Main screen strings !-->
+    <string name="main_title">Boolib !_!</string>
+    <string name="go_to_about">Go to about</string>
+
+    <!-- Bottom sheet strings !-->
 </resources>

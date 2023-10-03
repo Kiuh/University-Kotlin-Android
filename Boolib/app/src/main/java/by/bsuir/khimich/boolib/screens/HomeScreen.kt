@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -160,34 +161,42 @@ fun BookCard(book: Book, onRemove: ((Book) -> Unit)?, onRedact: ((Book) -> Unit)
     Box(
         modifier =
             Modifier.fillMaxWidth()
-                .height(120.dp)
+                .height(150.dp)
                 .background(color = Color.LightGray)
                 .padding(5.dp),
     ) {
-        Column(
-            verticalArrangement = Arrangement.Center,
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth().weight(1f),
-                horizontalArrangement = Arrangement.SpaceBetween
+        Row(modifier = Modifier.fillMaxHeight()) {
+            Column(
+                modifier = Modifier.fillMaxWidth().weight(5f),
+                verticalArrangement = Arrangement.Center,
             ) {
-                Text(modifier = Modifier, text = "Title: " + book.name)
-                Text(modifier = Modifier, text = if (book.isRead) "Read" else "Not read")
+                Text(modifier = Modifier.fillMaxWidth(), text = "Title: " + book.name)
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = if (book.isRead) "Read" else "Not read"
+                )
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = "Last paper: " + book.lastPaper.toString()
+                )
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = "Authors: " + book.authors.joinToString(", ")
+                )
+            }
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 FloatingActionButton(
-                    modifier = Modifier.padding(2.dp),
+                    modifier = Modifier.padding(2.dp).width(60.dp).height(60.dp),
                     onClick = { if (onRemove != null) onRemove(book) }
                 ) {
                     Icon(Icons.Default.Clear, contentDescription = null)
                 }
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth().weight(1f),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(modifier = Modifier, text = "Last paper: " + book.lastPaper.toString())
-                Text(modifier = Modifier, text = "Authors: " + book.authors.joinToString(", "))
                 FloatingActionButton(
-                    modifier = Modifier.padding(2.dp),
+                    modifier = Modifier.padding(2.dp).width(60.dp).height(60.dp),
                     onClick = { if (onRedact != null) onRedact(book) }
                 ) {
                     Icon(Icons.Default.Build, contentDescription = null)

@@ -1,23 +1,11 @@
-package by.bsuir.khimich.boolib.screens
+package by.bsuir.khimich.boolib.screens.about
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Button
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,7 +24,7 @@ import by.bsuir.khimich.boolib.ui.theme.BoolibTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutScreen(toHomeScreen: (() -> Unit)?) {
+fun AboutScreen(toHomeScreen: (() -> Unit)? = null) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
@@ -45,17 +33,19 @@ fun AboutScreen(toHomeScreen: (() -> Unit)?) {
         topBar = {
             CenterAlignedTopAppBar(
                 colors =
-                    TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        titleContentColor = MaterialTheme.colorScheme.primary,
-                    ),
+                TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                ),
                 title = {
                     Text(
                         stringResource(id = R.string.about_title),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         textAlign = TextAlign.Left,
-                        modifier = Modifier.fillMaxWidth().padding(8.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
                     )
                 },
                 scrollBehavior = scrollBehavior,
@@ -67,11 +57,15 @@ fun AboutScreen(toHomeScreen: (() -> Unit)?) {
                 contentColor = MaterialTheme.colorScheme.primary,
             ) {
                 Button(
-                    modifier = Modifier.fillMaxWidth(0.4f).padding(6.dp),
+                    modifier = Modifier
+                        .fillMaxWidth(0.4f)
+                        .padding(6.dp),
                     onClick = { toHomeScreen?.invoke() }
                 ) {
                     Text(
-                        modifier = Modifier.fillMaxWidth().padding(2.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(2.dp),
                         text = stringResource(id = R.string.back_from_about),
                     )
                 }
@@ -80,10 +74,11 @@ fun AboutScreen(toHomeScreen: (() -> Unit)?) {
     ) { paddingValues ->
         Column(
             modifier =
-                Modifier.padding(paddingValues)
-                    .padding(8.dp)
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState()),
+            Modifier
+                .padding(paddingValues)
+                .padding(8.dp)
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -92,7 +87,9 @@ fun AboutScreen(toHomeScreen: (() -> Unit)?) {
             Text(text = stringResource(id = R.string.about_description))
             Text(text = stringResource(id = R.string.about_author_title))
             Image(
-                modifier = Modifier.clip(CircleShape).size(200.dp),
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .size(200.dp),
                 painter = painterResource(id = R.drawable.author_image),
                 contentDescription = null
             )
@@ -111,5 +108,5 @@ fun AboutScreen(toHomeScreen: (() -> Unit)?) {
 @Preview(showBackground = true)
 @Composable
 fun AboutScreenPreview() {
-    BoolibTheme { AboutScreen(null) }
+    BoolibTheme { AboutScreen() }
 }

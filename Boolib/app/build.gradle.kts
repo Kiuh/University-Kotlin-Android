@@ -82,7 +82,6 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.coil.compose)
 
-    implementation(libs.navigation.compose)
     implementation(libs.constraintlayout.compose)
     implementation(libs.foundation)
     implementation(libs.paging.compose)

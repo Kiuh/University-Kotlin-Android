@@ -1,34 +1,28 @@
 package by.bsuir.khimich.boolib.models
 
-import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
-import java.util.UUID
+import androidx.lifecycle.viewModelScope
+import by.bsuir.khimich.boolib.repositories.BooksRepository
+import by.bsuir.khimich.boolib.repositories.BooksRepositoryImpl
+import kotlinx.coroutines.flow.*
+import java.util.*
 
-data class Book(
-    val name: String,
-    val isRead: Boolean,
-    val lastPaper: Int,
-    val authors: List<String>,
-    val id: UUID = UUID.randomUUID(),
-)
+sealed interface HomeState {
+    data object Loading : HomeState
+    data class DisplayingBooks(val books: List<Book>) : HomeState
+}
 
 class HomeViewModel : ViewModel() {
+    private val booksRepository: BooksRepository = BooksRepositoryImpl
 
-    val items: SnapshotStateList<Book> = DefaultBooks.toMutableStateList()
+    val selected = MutableStateFlow<UUID?>(null)
+    val state: StateFlow<HomeState> = booksRepository.getAllBooks()
+        .map(HomeState::DisplayingBooks).stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = HomeState.Loading
+        )
 
-    fun onClickRemoveBook(book: Book) = items.remove(book)
-
-    fun onClickAddBook(book: Book) = items.add(book)
-
-    fun onClickChangeBook(book: Book) = items.add(book)
-
-    private companion object {
-
-        private val DefaultBooks =
-            listOf(
-                Book("Chomsky", false, 0, listOf("Robin", "Goblin")),
-                Book("Midnight", false, 0, listOf("Hoodwink", "Goode wink"))
-            )
-    }
+    fun onBookClick(id: UUID?) = selected.update { id }
+    suspend fun onBookRemove(id: UUID?) = booksRepository.delete(id)
 }

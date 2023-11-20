@@ -1,7 +1,6 @@
 package by.bsuir.khimich.boolib.screens.home
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewModelScope
@@ -23,18 +22,11 @@ fun Home(destinationsNavigator: DestinationsNavigator) = HomeCover(destinationsN
 fun HomeCover(destinationsNavigator: DestinationsNavigator) {
     val viewModel = viewModel<HomeViewModel>()
     val state by viewModel.state.collectAsState()
-    val selected by viewModel.selected.collectAsState()
-
-    LaunchedEffect(selected) {
-        if (selected != null) {
-            destinationsNavigator.navigate(UpsertDestination(selected))
-        }
-    }
 
     HomeScreen(
         homeState = state,
         removeBook = { id -> viewModel.viewModelScope.launch { viewModel.onBookRemove(id) } },
-        onBookClick = { id -> viewModel.onBookClick(id) },
+        onBookClick = { id -> destinationsNavigator.navigate(UpsertDestination(id)) },
         toAboutScreen = { destinationsNavigator.navigate(AboutDestination()) },
     )
 }

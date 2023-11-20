@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -24,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import by.bsuir.khimich.boolib.R
 import by.bsuir.khimich.boolib.models.Book
 import by.bsuir.khimich.boolib.models.HomeState
+import by.bsuir.khimich.boolib.screens.LoadingScreen
 import by.bsuir.khimich.boolib.ui.theme.BoolibTheme
 import java.util.*
 
@@ -36,7 +36,7 @@ fun HomeScreen(
 ) {
     when (homeState) {
         is HomeState.Loading -> {
-            HomeScreenLoading()
+            LoadingScreen()
         }
 
         is HomeState.DisplayingBooks -> {
@@ -195,32 +195,6 @@ fun BookCard(book: Book? = null, onRemove: ((UUID?) -> Unit)? = null, onRedact: 
             }
         }
     }
-}
-
-@Composable
-fun HomeScreenLoading() {
-    Box(
-        modifier = Modifier
-            .size(76.dp)
-            .background(
-                color = Color.White,
-                shape = RoundedCornerShape(4.dp)
-            )
-    ) {
-        CircularProgressIndicator(
-            modifier = Modifier
-                .align(
-                    Alignment.Center
-                ),
-            color = Color.Red
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenLoadingPreview() {
-    BoolibTheme { HomeScreenLoading() }
 }
 
 @Preview(showBackground = true)

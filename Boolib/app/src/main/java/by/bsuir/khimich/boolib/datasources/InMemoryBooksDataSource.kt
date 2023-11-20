@@ -34,10 +34,14 @@ object InMemoryBooksDataSource : BooksDataSource {
     }
 
     override suspend fun upsert(book: Book) {
-        books[book.id] = book
+        _bookFlow.emit(books.apply {
+            put(book.id, book)
+        })
     }
 
     override suspend fun delete(id: UUID) {
-        books.remove(id)
+        _bookFlow.emit(books.apply {
+            remove(id)
+        })
     }
 }

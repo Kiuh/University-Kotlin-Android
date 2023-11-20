@@ -14,8 +14,7 @@ sealed interface HomeState {
 
 class HomeViewModel : ViewModel() {
     private val booksRepository: BooksRepository = BooksRepositoryImpl
-
-    val selected = MutableStateFlow<UUID?>(null)
+    
     val state: StateFlow<HomeState> = booksRepository.getAllBooks()
         .map(HomeState::DisplayingBooks).stateIn(
             scope = viewModelScope,
@@ -23,6 +22,5 @@ class HomeViewModel : ViewModel() {
             initialValue = HomeState.Loading
         )
 
-    fun onBookClick(id: UUID?) = selected.update { id }
     suspend fun onBookRemove(id: UUID?) = booksRepository.delete(id)
 }

@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import by.bsuir.khimich.boolib.models.HomeViewModel
 import by.bsuir.khimich.boolib.screens.destinations.AboutDestination
 import by.bsuir.khimich.boolib.screens.destinations.UpsertDestination
@@ -12,6 +11,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 
 @RootNavGraph(start = true)
 @Destination
@@ -20,7 +20,7 @@ fun Home(destinationsNavigator: DestinationsNavigator) = HomeCover(destinationsN
 
 @Composable
 fun HomeCover(destinationsNavigator: DestinationsNavigator) {
-    val viewModel = viewModel<HomeViewModel>()
+    val viewModel = koinInject<HomeViewModel>()
     val state by viewModel.state.collectAsState()
 
     HomeScreen(

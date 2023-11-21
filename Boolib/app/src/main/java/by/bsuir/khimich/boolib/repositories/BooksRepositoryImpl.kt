@@ -1,15 +1,13 @@
 package by.bsuir.khimich.boolib.repositories
 
 import by.bsuir.khimich.boolib.datasources.BooksDataSource
-import by.bsuir.khimich.boolib.datasources.InMemoryBooksDataSource
 import by.bsuir.khimich.boolib.models.Book
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import java.util.*
 
-object BooksRepositoryImpl : BooksRepository {
-
-    private val dataSource: BooksDataSource = InMemoryBooksDataSource
+internal class BooksRepositoryImpl(private val dataSource: BooksDataSource) : BooksRepository {
+    //object BooksRepositoryImpl : BooksRepository {
     override fun getAllBooks(): Flow<List<Book>> {
         return dataSource.getBooks()
     }
@@ -23,6 +21,7 @@ object BooksRepositoryImpl : BooksRepository {
 
     override suspend fun upsert(book: Book?) {
         if (book != null) {
+            
             dataSource.upsert(book)
         }
     }

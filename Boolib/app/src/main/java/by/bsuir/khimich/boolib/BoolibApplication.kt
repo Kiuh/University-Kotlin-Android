@@ -9,7 +9,7 @@ class BoolibApplication : Application() {
         super.onCreate()
         startKoin {
             androidContext(applicationContext)
-            modules()
+            modules(appModule)
         }
     }
 }

@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.ksp)
+    //kotlin("jvm") version "1.9.20"
+    kotlin("plugin.serialization") version "1.9.20"
 }
 
 android {
@@ -51,7 +53,36 @@ android {
     }
 }
 
+ksp {
+    arg("room.schemaLocation", "$projectDir/schema")
+    arg("room.incremental", "true")
+    arg("room.expandProjection", "true")
+}
+
 dependencies {
+    implementation(libs.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+
+    // To use Kotlin Symbol Processing (KSP)
+    ksp(libs.androidx.room.compiler)
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation(libs.room.ktx)
+
+    // optional - RxJava2 support for Room
+    implementation(libs.androidx.room.rxjava2)
+
+    // optional - RxJava3 support for Room
+    implementation(libs.androidx.room.rxjava3)
+
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation(libs.androidx.room.guava)
+
+    // optional - Test helpers
+    testImplementation(libs.androidx.room.testing)
+
+    // optional - Paging 3 Integration
+    implementation(libs.androidx.room.paging)
 
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
@@ -106,11 +137,16 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
 
     implementation(libs.ktor.serialization.kotlinx.json)
+
     implementation(libs.ktor.client.logging)
     implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.okhttp)
     implementation(libs.ktor.client.cio)
     implementation(libs.ktor.client.auth)
     implementation(libs.ktor.client.android)
+    implementation(libs.ktor.auth)
+    implementation(libs.ktor.content.negotiation)
+    implementation(libs.ktor.client.encoding)
 
     implementation(libs.lifecycle.process)
     implementation(libs.lifecycle.service)

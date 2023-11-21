@@ -7,6 +7,8 @@ core-ktx = "1.12.0"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
+ktor-auth = "1.6.8"
+ktor-client-okhttp = "2.3.6"
 lifecycle-runtime-ktx = "2.6.2"
 activity-compose = "1.8.1"
 compose-bom = "2023.10.01"
@@ -19,9 +21,21 @@ androidx-lifecycle = "2.6.2"
 ktor = "2.3.6"
 material = "1.5.4"
 nav-version = "2.7.5"
+room-compiler = "2.6.0"
+room-guava = "2.6.0"
+room-paging = "2.6.0"
+room-rxjava2 = "2.6.0"
+room-rxjava3 = "2.6.0"
+room-testing = "2.6.0"
 
 [libraries]
 androidx-material = { module = "androidx.compose.material:material", version.ref = "material" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room-compiler" }
+androidx-room-guava = { module = "androidx.room:room-guava", version.ref = "room-guava" }
+androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "room-paging" }
+androidx-room-rxjava2 = { module = "androidx.room:room-rxjava2", version.ref = "room-rxjava2" }
+androidx-room-rxjava3 = { module = "androidx.room:room-rxjava3", version.ref = "room-rxjava3" }
+androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "room-testing" }
 animations-core-v193 = { module = "io.github.raamcosta.compose-destinations:animations-core", version = "1.9.54" }
 compose-destinations-ksp = { module = "io.github.raamcosta.compose-destinations:ksp", version.ref = "github-ksp" }
 core = { module = "io.github.raamcosta.compose-destinations:animations-core", version = "1.9.54" }
@@ -30,6 +44,9 @@ github-core = { module = "io.github.raamcosta.compose-destinations:core", versio
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+ktor-auth = { module = "io.ktor:ktor-auth", version.ref = "ktor-auth" }
+ktor-client-encoding = { module = "io.ktor:ktor-client-encoding", version.ref = "ktor-client-okhttp" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor-client-okhttp" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
@@ -73,12 +90,14 @@ koin-compose = { group = "io.insert-koin", name = "koin-compose", version = "1.1
 work-runtime = { group = "androidx.work", name = "work-runtime", version = "2.8.1" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version = "1.7.3" }
 
-ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+
 ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
 ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
 ktor-client-auth = { group = "io.ktor", name = "ktor-client-auth", version.ref = "ktor" }
 ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 
 lifecycle-process = { group = "androidx.lifecycle", name = "lifecycle-process", version.ref = "androidx-lifecycle" }
 lifecycle-service = { group = "androidx.lifecycle", name = "lifecycle-service", version.ref = "androidx-lifecycle" }

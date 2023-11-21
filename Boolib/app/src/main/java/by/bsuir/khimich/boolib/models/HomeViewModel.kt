@@ -12,8 +12,7 @@ sealed interface HomeState {
     data class DisplayingBooks(val books: List<Book>) : HomeState
 }
 
-class HomeViewModel : ViewModel() {
-    private val booksRepository: BooksRepository = BooksRepositoryImpl
+class HomeViewModel(private val booksRepository: BooksRepository) : ViewModel() {
     
     val state: StateFlow<HomeState> = booksRepository.getAllBooks()
         .map(HomeState::DisplayingBooks).stateIn(

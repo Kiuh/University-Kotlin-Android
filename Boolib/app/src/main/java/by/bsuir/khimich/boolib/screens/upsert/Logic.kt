@@ -4,12 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import by.bsuir.khimich.boolib.models.UpsertViewModel
 import by.bsuir.khimich.boolib.screens.destinations.HomeDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 import java.util.*
 
 @Destination
@@ -19,7 +19,7 @@ fun Upsert(destinationsNavigator: DestinationsNavigator, id: UUID?) =
 
 @Composable
 fun UpsertCover(destinationsNavigator: DestinationsNavigator, id: UUID?) {
-    val viewModel = viewModel<UpsertViewModel>()
+    val viewModel = koinInject<UpsertViewModel>()
 
     viewModel.setStateFlow(id)
     val state by viewModel.state.collectAsState()

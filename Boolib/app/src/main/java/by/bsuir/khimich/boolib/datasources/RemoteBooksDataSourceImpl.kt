@@ -15,17 +15,17 @@ import java.util.*
 data class BookList(
     val status: String,
     val copyright: String,
-    val numResults: Int,
+    val num_results: Int,
     val results: List<Result>,
 )
 
 @Serializable
 data class Result(
-    val listName: String,
-    val displayName: String,
-    val listNameEncoded: String,
-    val oldestPublishedDate: String,
-    val newestPublishedDate: String,
+    val list_name: String,
+    val display_name: String,
+    val list_name_encoded: String,
+    val oldest_published_date: String,
+    val newest_published_date: String,
     val updated: String,
 )
 
@@ -40,25 +40,13 @@ internal class RemoteBooksDataSourceImpl(private val client: HttpClient) : Remot
         val bookList = Json.decodeFromString<BookList>(String(response.readBytes()))
         emit(bookList.results.map {
             Book(
-                it.listName,
+                it.list_name,
                 false,
                 0,
-                listOf("No Authors"),
-                id = UUID.nameUUIDFromBytes(it.listName.toByteArray())
+                it.display_name.split(" "),
+                id = UUID.nameUUIDFromBytes(it.list_name.toByteArray())
             )
         })
-    }
-
-    override fun getBook(id: UUID): Flow<Book?> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun upsert(book: Book) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun delete(id: UUID) {
-        TODO("Not yet implemented")
     }
 
     internal companion object {

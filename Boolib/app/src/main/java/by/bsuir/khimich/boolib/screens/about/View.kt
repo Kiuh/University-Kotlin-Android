@@ -24,7 +24,7 @@ import by.bsuir.khimich.boolib.ui.theme.BoolibTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutScreen(toHomeScreen: (() -> Unit)? = null) {
+fun AboutScreen(toHomeScreen: () -> Unit) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
@@ -60,7 +60,7 @@ fun AboutScreen(toHomeScreen: (() -> Unit)? = null) {
                     modifier = Modifier
                         .fillMaxWidth(0.4f)
                         .padding(6.dp),
-                    onClick = { toHomeScreen?.invoke() }
+                    onClick = { toHomeScreen.invoke() }
                 ) {
                     Text(
                         modifier = Modifier
@@ -108,5 +108,5 @@ fun AboutScreen(toHomeScreen: (() -> Unit)? = null) {
 @Preview(showBackground = true)
 @Composable
 fun AboutScreenPreview() {
-    BoolibTheme { AboutScreen() }
+    BoolibTheme { AboutScreen {} }
 }

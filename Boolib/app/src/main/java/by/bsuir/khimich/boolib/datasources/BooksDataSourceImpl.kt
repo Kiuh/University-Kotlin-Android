@@ -12,7 +12,7 @@ fun transformToBook(bookEntity: BookEntity?): Book {
         bookEntity.name,
         bookEntity.isRead,
         bookEntity.lastPaper,
-        bookEntity.authors.split("\n"),
+        bookEntity.authors.split("<-->"),
         bookEntity.id
     ) else Book.getNotFoundBook()
 }
@@ -23,7 +23,7 @@ fun transformToBookEntity(book: Book): BookEntity {
         book.name,
         book.isRead,
         book.lastPaper,
-        book.authors.joinToString { "\n" }
+        book.authors.joinToString { "<-->" }
     )
 }
 

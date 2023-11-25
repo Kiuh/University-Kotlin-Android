@@ -3,8 +3,11 @@ package by.bsuir.khimich.boolib.models
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.bsuir.khimich.boolib.repositories.BooksRepository
-import by.bsuir.khimich.boolib.repositories.BooksRepositoryImpl
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import java.util.*
 
 sealed interface HomeState {
@@ -13,7 +16,7 @@ sealed interface HomeState {
 }
 
 class HomeViewModel(private val booksRepository: BooksRepository) : ViewModel() {
-    
+
     val state: StateFlow<HomeState> = booksRepository.getAllBooks()
         .map(HomeState::DisplayingBooks).stateIn(
             scope = viewModelScope,
@@ -21,5 +24,7 @@ class HomeViewModel(private val booksRepository: BooksRepository) : ViewModel() 
             initialValue = HomeState.Loading
         )
 
-    suspend fun onBookRemove(id: UUID?) = booksRepository.delete(id)
+    fun onBookRemove(id: UUID?) {
+        viewModelScope.launch { booksRepository.delete(id) }
+    }
 }

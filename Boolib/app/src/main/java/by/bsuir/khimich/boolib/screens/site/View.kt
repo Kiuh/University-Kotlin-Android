@@ -1,4 +1,4 @@
-package by.bsuir.khimich.boolib.screens.home
+package by.bsuir.khimich.boolib.screens.site
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,33 +19,27 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import by.bsuir.khimich.boolib.R
 import by.bsuir.khimich.boolib.models.Book
-import by.bsuir.khimich.boolib.models.HomeState
-import by.bsuir.khimich.boolib.screens.BookCard
+import by.bsuir.khimich.boolib.models.SiteState
 import by.bsuir.khimich.boolib.screens.LoadingScreen
+import by.bsuir.khimich.boolib.screens.SiteBookCard
 import by.bsuir.khimich.boolib.ui.theme.BoolibTheme
-import java.util.*
 
 @Composable
-fun HomeScreen(
-    homeState: HomeState,
-    removeBook: (UUID?) -> Unit,
-    onBookClick: (UUID?) -> Unit,
-    toAboutScreen: () -> Unit,
-    toSiteScreen: () -> Unit,
+fun SiteScreen(
+    siteState: SiteState,
+    onBookClick: (Book) -> Unit,
+    toHomeScreen: () -> Unit,
 ) {
-    when (homeState) {
-        is HomeState.Loading -> {
+    when (siteState) {
+        is SiteState.Loading -> {
             LoadingScreen()
         }
 
-        is HomeState.DisplayingBooks -> {
-            HomeScreenContent(
-                books = homeState.books,
-                removeBook = removeBook,
-                updateBook = { id -> onBookClick.invoke(id) },
-                addBook = { onBookClick.invoke(null) },
-                toAboutScreen = toAboutScreen,
-                toSiteScreen = toSiteScreen
+        is SiteState.DisplayingBooks -> {
+            SiteScreenContent(
+                books = siteState.books,
+                onBookClick = onBookClick,
+                toHomeScreen = toHomeScreen
             )
         }
     }
@@ -55,13 +47,10 @@ fun HomeScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreenContent(
+fun SiteScreenContent(
     books: List<Book>,
-    removeBook: (UUID?) -> Unit,
-    updateBook: (UUID?) -> Unit,
-    addBook: () -> Unit,
-    toAboutScreen: () -> Unit,
-    toSiteScreen: () -> Unit,
+    onBookClick: (Book) -> Unit,
+    toHomeScreen: () -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     Scaffold(
@@ -76,7 +65,7 @@ fun HomeScreenContent(
                 ),
                 title = {
                     Text(
-                        stringResource(id = R.string.main_title),
+                        stringResource(id = R.string.main_title) + " - Books From Site",
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         textAlign = TextAlign.Left,
@@ -97,37 +86,15 @@ fun HomeScreenContent(
                     modifier = Modifier
                         .fillMaxWidth(0.4f)
                         .padding(6.dp),
-                    onClick = { toAboutScreen.invoke() }
+                    onClick = { toHomeScreen.invoke() }
                 ) {
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(2.dp),
-                        text = stringResource(id = R.string.go_to_about),
+                        text = "To Home",
                     )
                 }
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth(0.6f)
-                        .padding(6.dp),
-                    onClick = { toSiteScreen.invoke() }
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(2.dp),
-                        text = "Go to site",
-                    )
-                }
-            }
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    addBook.invoke()
-                }
-            ) {
-                Icon(Icons.Default.Add, contentDescription = null)
             }
         }
     ) { paddingValues ->
@@ -143,7 +110,7 @@ fun HomeScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             items(books.count(), key = { books[it].id }) { index ->
-                BookCard(books[index], removeBook, updateBook)
+                SiteBookCard(books[index], onBookClick)
             }
         }
     }
@@ -151,13 +118,6 @@ fun HomeScreenContent(
 
 @Preview(showBackground = true)
 @Composable
-fun HomeScreenContentPreview() {
-    BoolibTheme {
-        HomeScreenContent(
-            books = listOf(Book.getNotFoundBook(), Book.getNotFoundBook()),
-            {},
-            {},
-            {},
-            {}, {})
-    }
+fun SiteScreenContentPreview() {
+    BoolibTheme { SiteScreenContent(books = listOf(Book.getNotFoundBook(), Book.getNotFoundBook()), {}, {}) }
 }

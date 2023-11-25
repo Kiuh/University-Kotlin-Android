@@ -3,14 +3,13 @@ package by.bsuir.khimich.boolib.screens.home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.viewModelScope
 import by.bsuir.khimich.boolib.models.HomeViewModel
 import by.bsuir.khimich.boolib.screens.destinations.AboutDestination
+import by.bsuir.khimich.boolib.screens.destinations.SiteDestination
 import by.bsuir.khimich.boolib.screens.destinations.UpsertDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
 @RootNavGraph(start = true)
@@ -25,8 +24,9 @@ fun HomeCover(destinationsNavigator: DestinationsNavigator) {
 
     HomeScreen(
         homeState = state,
-        removeBook = { id -> viewModel.viewModelScope.launch { viewModel.onBookRemove(id) } },
+        removeBook = { id -> viewModel.onBookRemove(id) },
         onBookClick = { id -> destinationsNavigator.navigate(UpsertDestination(id)) },
         toAboutScreen = { destinationsNavigator.navigate(AboutDestination()) },
+        toSiteScreen = { destinationsNavigator.navigate(SiteDestination()) },
     )
 }

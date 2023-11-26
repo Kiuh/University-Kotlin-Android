@@ -121,6 +121,8 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.androidx.datastore)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    //implementation(libs.insert.koin.koin.androidx.viewmodel)
 
     implementation(libs.core)
     implementation(libs.github.core)
@@ -132,6 +134,7 @@ dependencies {
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
+    //implementation(libs.koin.androidx.viewmodel)
 
     implementation(libs.work.runtime)
     implementation(libs.kotlinx.coroutines.core)

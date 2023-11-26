@@ -1,7 +1,9 @@
 [versions]
 agp = "8.2.0-rc03"
-github-core = "1.9.54"
-github-ksp = "1.9.54"
+github-core = "1.9.55"
+github-ksp = "1.9.55"
+insert-koin-koin-androidx-viewmodel = "3.2.0"
+koin-androidx-viewmodel = "3.0.0-alpha-1"
 kotlin = "1.9.10"
 core-ktx = "1.12.0"
 junit = "4.13.2"
@@ -29,6 +31,7 @@ room-rxjava3 = "2.6.0"
 room-testing = "2.6.0"
 
 [libraries]
+androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle-runtime-ktx" }
 androidx-material = { module = "androidx.compose.material:material", version.ref = "material" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room-compiler" }
 androidx-room-guava = { module = "androidx.room:room-guava", version.ref = "room-guava" }
@@ -36,14 +39,16 @@ androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "ro
 androidx-room-rxjava2 = { module = "androidx.room:room-rxjava2", version.ref = "room-rxjava2" }
 androidx-room-rxjava3 = { module = "androidx.room:room-rxjava3", version.ref = "room-rxjava3" }
 androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "room-testing" }
-animations-core-v193 = { module = "io.github.raamcosta.compose-destinations:animations-core", version = "1.9.54" }
+animations-core-v193 = { module = "io.github.raamcosta.compose-destinations:animations-core", version = "1.9.55" }
 compose-destinations-ksp = { module = "io.github.raamcosta.compose-destinations:ksp", version.ref = "github-ksp" }
-core = { module = "io.github.raamcosta.compose-destinations:animations-core", version = "1.9.54" }
+core = { module = "io.github.raamcosta.compose-destinations:animations-core", version = "1.9.55" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 github-core = { module = "io.github.raamcosta.compose-destinations:core", version.ref = "github-core" }
+#insert-koin-koin-androidx-viewmodel = { module = "io.insert-koin:koin-androidx-viewmodel", version.ref = "insert-koin-koin-androidx-viewmodel" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+koin-androidx-viewmodel = { module = "org.koin:koin-androidx-viewmodel", version.ref = "koin-androidx-viewmodel" }
 ktor-auth = { module = "io.ktor:ktor-auth", version.ref = "ktor-auth" }
 ktor-client-encoding = { module = "io.ktor:ktor-client-encoding", version.ref = "ktor-client-okhttp" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor-client-okhttp" }

@@ -15,8 +15,8 @@ ktor = "2.3.6"
 room-compiler = "2.6.1"
 
 [libraries]
-android-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
-kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+#android-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+#kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room-compiler" }
 animations-core-v193 = { module = "io.github.raamcosta.compose-destinations:animations-core", version = "1.9.55" }
@@ -39,7 +39,7 @@ collection-ktx = { group = "androidx.collection", name = "collection-ktx", versi
 
 foundation = { group = "androidx.compose.foundation", name = "foundation", version = "1.6.0-beta02" }
 runtime = { group = "androidx.compose.runtime", name = "runtime", version = "1.6.0-beta02" }
-kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "1.6.1" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "1.6.2" }
 
 koin-core = { group = "io.insert-koin", name = "koin-core", version = "3.5.0" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version = "3.5.0" }

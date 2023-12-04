@@ -1,5 +1,5 @@
 package by.bsuir.khimich.boolib.mviframework
-
+/*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
@@ -33,4 +33,4 @@ abstract class MVIViewModel<S, I, E>(initial: S) : ViewModel(), Container<S, I, 
     protected open fun CoroutineScope.onSubscribe() = Unit
     protected abstract suspend fun reduce(intent: I)
 }
-
+*/

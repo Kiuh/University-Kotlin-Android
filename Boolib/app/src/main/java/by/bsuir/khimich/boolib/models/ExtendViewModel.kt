@@ -1,5 +1,6 @@
 package by.bsuir.khimich.boolib.models
 
+/*
 import by.bsuir.khimich.boolib.mviframework.MVIViewModel
 import by.bsuir.khimich.boolib.repositories.BooksRepository
 import by.bsuir.khimich.boolib.repositories.SiteBooksRepository
@@ -51,3 +52,4 @@ class ExtendViewModel(
     }
 }
 
+*/

@@ -24,7 +24,6 @@ sealed interface OverviewIntent {
 
 sealed interface OverviewEvent {
     data object Exit : OverviewEvent
-    data class ChangeFavorites(val inFavorites: Boolean) : OverviewEvent
 }
 
 enum class OverviewMode {
@@ -92,14 +91,16 @@ class OverviewViewModel(
 
     override suspend fun reduce(intent: OverviewIntent) {
         when (intent) {
-            is OverviewIntent.ExitClicked -> event(OverviewEvent.Exit)
+            is OverviewIntent.ExitClicked -> {
+                event(OverviewEvent.Exit)
+            }
 
             is OverviewIntent.AddToFavoritesClicked -> {
-                event(OverviewEvent.ChangeFavorites(true))
+                whiteListRepository.addToFavorites(intent.id)
             }
 
             is OverviewIntent.RemoveFromFavoritesClicked -> {
-                event(OverviewEvent.ChangeFavorites(false))
+                whiteListRepository.removeFromFavorites(intent.id)
             }
         }
     }

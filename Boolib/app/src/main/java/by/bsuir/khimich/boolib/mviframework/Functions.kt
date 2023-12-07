@@ -1,5 +1,5 @@
 package by.bsuir.khimich.boolib.mviframework
-/*
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
@@ -31,4 +31,4 @@ fun <S, A> Container<S, *, A>.subscribe(onEvent: suspend (A) -> Unit): State<S> 
 inline fun <reified T, S, I, E> container(
     noinline params: ParametersDefinition? = null,
 ): Container<S, I, E> where T : Container<S, I, E>, T : ViewModel = koinInject<T>(parameters = params)
-*/
+

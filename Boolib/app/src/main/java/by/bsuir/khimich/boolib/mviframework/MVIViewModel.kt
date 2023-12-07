@@ -1,13 +1,10 @@
 package by.bsuir.khimich.boolib.mviframework
-/*
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 interface Container<S, I, E> {
@@ -18,19 +15,22 @@ interface Container<S, I, E> {
 
 abstract class MVIViewModel<S, I, E>(initial: S) : ViewModel(), Container<S, I, E> {
 
-    private val _states: MutableStateFlow<S> = MutableStateFlow(initial)
-    private val _events = Channel<E>(Channel.UNLIMITED)
+    private val _state: MutableStateFlow<S> = MutableStateFlow(initial)
+    private val _events = Channel<E>()
+    private val events = _events.receiveAsFlow()
 
-    final override val states = _states.asStateFlow()
-    final override fun intent(intent: I): Unit = run { viewModelScope.launch { reduce(intent) } }
+    final override val states: StateFlow<S> = _state.asStateFlow()
+    final override fun intent(intent: I) {
+        viewModelScope.launch { reduce(intent) }
+    }
+
     final override fun CoroutineScope.subscribe(onEvent: suspend (E) -> Unit) {
-        launch { for (event in _events) onEvent(event) }
+        events.onEach { onEvent(it) }.launchIn(this)
         onSubscribe()
     }
 
     protected fun event(event: E) = viewModelScope.launch { _events.send(event) }
-    protected fun state(block: S.() -> S) = _states.update { block.invoke(_states.value) }
-    protected open fun CoroutineScope.onSubscribe() = Unit
+    protected fun state(block: S.() -> S) = _state.update(block)
+    protected abstract fun CoroutineScope.onSubscribe()
     protected abstract suspend fun reduce(intent: I)
 }
-*/

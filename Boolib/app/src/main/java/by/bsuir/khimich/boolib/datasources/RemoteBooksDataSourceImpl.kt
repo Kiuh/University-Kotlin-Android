@@ -49,6 +49,10 @@ internal class RemoteBooksDataSourceImpl(private val client: HttpClient) : Remot
         })
     }
 
+    override fun getOneBook(): Flow<Book?> {
+        TODO("Not yet implemented")
+    }
+
     internal companion object {
         const val baseUri = "https://api.nytimes.com/svc/books/v3"
         const val apiKey1 = "iTy9YmAlXPzXrCT"

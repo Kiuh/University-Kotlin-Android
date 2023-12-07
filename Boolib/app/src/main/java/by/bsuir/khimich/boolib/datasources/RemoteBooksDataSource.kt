@@ -5,4 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface RemoteBooksDataSource {
     fun getBooks(): Flow<List<Book>>
+    
+    fun getOneBook(): Flow<Book?>
 }

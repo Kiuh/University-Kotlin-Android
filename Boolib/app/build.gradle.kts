@@ -50,6 +50,12 @@ android {
     }
 }
 
+ksp {
+    arg("room.schemaLocation", "$projectDir/schema")
+    arg("room.incremental", "true")
+    arg("room.expandProjection", "true")
+}
+
 dependencies {
     implementation(libs.room.runtime)
     ksp(libs.androidx.room.compiler)
@@ -93,6 +99,7 @@ dependencies {
 
     runtimeOnly(libs.lifecycle.process)
     implementation(libs.lifecycle.viewmodel)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

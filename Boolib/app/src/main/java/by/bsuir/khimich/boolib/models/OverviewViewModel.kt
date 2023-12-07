@@ -13,6 +13,7 @@ sealed interface OverviewState {
     data object Loading : OverviewState
     data class DisplayingSiteBook(val book: Book, val inFavorites: Boolean) : OverviewState
     data class DisplayingPrivateBook(val book: Book, val inFavorites: Boolean) : OverviewState
+    data class Error(val e: Exception?) : OverviewState
 }
 
 sealed interface OverviewIntent {
@@ -54,10 +55,12 @@ class OverviewViewModel(
                             if (it.book != null && it.check != null) {
                                 OverviewState.DisplayingPrivateBook(it.book, it.check)
                             }
-                            OverviewState.Loading
+                            OverviewState.Error(null)
                         }
                     }
-                    .catch { }
+                    .catch {
+                        OverviewState.Error(it as? Exception)
+                    }
                     .flowOn(Dispatchers.Default)
                     .launchIn(this)
             }
@@ -75,10 +78,12 @@ class OverviewViewModel(
                             if (it.book != null && it.check != null) {
                                 OverviewState.DisplayingSiteBook(it.book, it.check)
                             }
-                            OverviewState.Loading
+                            OverviewState.Error(null)
                         }
                     }
-                    .catch { }
+                    .catch {
+                        OverviewState.Error(it as? Exception)
+                    }
                     .flowOn(Dispatchers.Default)
                     .launchIn(this)
             }

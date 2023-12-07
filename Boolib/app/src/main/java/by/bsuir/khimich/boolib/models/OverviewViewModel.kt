@@ -3,12 +3,10 @@ package by.bsuir.khimich.boolib.models
 import by.bsuir.khimich.boolib.mviframework.MVIViewModel
 import by.bsuir.khimich.boolib.repositories.BooksRepository
 import by.bsuir.khimich.boolib.repositories.SiteBooksRepository
+import by.bsuir.khimich.boolib.repositories.WhiteListRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import java.util.*
 
 sealed interface OverviewState {
@@ -38,16 +36,23 @@ class OverviewViewModel(
     private val mode: OverviewMode,
     private val siteBooksRepository: SiteBooksRepository,
     private val booksRepository: BooksRepository,
+    private val whiteListRepository: WhiteListRepository,
 ) : MVIViewModel<OverviewState, OverviewIntent, OverviewEvent>(OverviewState.Loading) {
 
     override fun CoroutineScope.onSubscribe() {
         when (mode) {
             OverviewMode.FromLocal -> {
                 booksRepository.getBook(id)
+                    .combine(whiteListRepository.checkIfFavorite(id)) { book, check ->
+                        object {
+                            val book: Book? = book
+                            val check: Boolean? = check
+                        }
+                    }
                     .onEach {
                         state {
-                            if (it != null) {
-                                OverviewState.DisplayingPrivateBook(it, false)
+                            if (it.book != null && it.check != null) {
+                                OverviewState.DisplayingPrivateBook(it.book, it.check)
                             }
                             OverviewState.Loading
                         }
@@ -59,10 +64,16 @@ class OverviewViewModel(
 
             OverviewMode.FromSite -> {
                 siteBooksRepository.getOneBook(id)
+                    .combine(whiteListRepository.checkIfFavorite(id)) { book, check ->
+                        object {
+                            val book: Book? = book
+                            val check: Boolean? = check
+                        }
+                    }
                     .onEach {
                         state {
-                            if (it != null) {
-                                OverviewState.DisplayingSiteBook(it, false)
+                            if (it.book != null && it.check != null) {
+                                OverviewState.DisplayingSiteBook(it.book, it.check)
                             }
                             OverviewState.Loading
                         }

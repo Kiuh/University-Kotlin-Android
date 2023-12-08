@@ -4,7 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import by.bsuir.khimich.boolib.models.HomeViewModel
+import by.bsuir.khimich.boolib.models.OverviewMode
 import by.bsuir.khimich.boolib.screens.destinations.AboutDestination
+import by.bsuir.khimich.boolib.screens.destinations.OverviewDestination
 import by.bsuir.khimich.boolib.screens.destinations.SiteDestination
 import by.bsuir.khimich.boolib.screens.destinations.UpsertDestination
 import com.ramcosta.composedestinations.annotation.Destination
@@ -28,5 +30,6 @@ fun HomeCover(destinationsNavigator: DestinationsNavigator) {
         onBookClick = { id -> destinationsNavigator.navigate(UpsertDestination(id)) },
         toAboutScreen = { destinationsNavigator.navigate(AboutDestination()) },
         toSiteScreen = { destinationsNavigator.navigate(SiteDestination()) },
+        toOverviewScreen = { id -> destinationsNavigator.navigate(OverviewDestination(id, OverviewMode.FromLocal)) }
     )
 }

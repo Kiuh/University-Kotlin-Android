@@ -23,12 +23,14 @@ import by.bsuir.khimich.boolib.models.SiteState
 import by.bsuir.khimich.boolib.screens.LoadingScreen
 import by.bsuir.khimich.boolib.screens.SiteBookCard
 import by.bsuir.khimich.boolib.ui.theme.BoolibTheme
+import java.util.*
 
 @Composable
 fun SiteScreen(
     siteState: SiteState,
     onBookClick: (Book) -> Unit,
     toHomeScreen: () -> Unit,
+    toOverview: (UUID?) -> Unit,
 ) {
     when (siteState) {
         is SiteState.Loading -> {
@@ -39,7 +41,8 @@ fun SiteScreen(
             SiteScreenContent(
                 books = siteState.books,
                 onBookClick = onBookClick,
-                toHomeScreen = toHomeScreen
+                toHomeScreen = toHomeScreen,
+                toOverview = toOverview
             )
         }
     }
@@ -51,6 +54,7 @@ fun SiteScreenContent(
     books: List<Book>,
     onBookClick: (Book) -> Unit,
     toHomeScreen: () -> Unit,
+    toOverview: (UUID?) -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     Scaffold(
@@ -110,7 +114,7 @@ fun SiteScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             items(books.count(), key = { books[it].id }) { index ->
-                SiteBookCard(books[index], onBookClick)
+                SiteBookCard(books[index], onBookClick, toOverview)
             }
         }
     }
@@ -119,5 +123,5 @@ fun SiteScreenContent(
 @Preview(showBackground = true)
 @Composable
 fun SiteScreenContentPreview() {
-    BoolibTheme { SiteScreenContent(books = listOf(Book.getNotFoundBook(), Book.getNotFoundBook()), {}, {}) }
+    BoolibTheme { SiteScreenContent(books = listOf(Book.getNotFoundBook(), Book.getNotFoundBook()), {}, {}, {}) }
 }

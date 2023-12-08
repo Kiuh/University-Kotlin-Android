@@ -21,3 +21,5 @@ internal interface BookDao {
     @Query("DELETE FROM ${BookEntity.TableName} WHERE id = :id")
     suspend fun delete(id: UUID)
 }
+
+

@@ -11,9 +11,9 @@ import java.util.*
 
 sealed interface OverviewState {
     data object Loading : OverviewState
-    data class DisplayingSiteBook(val book: Book, val inFavorites: Boolean) : OverviewState
-    data class DisplayingPrivateBook(val book: Book, val inFavorites: Boolean) : OverviewState
-    data class Error(val e: Exception?) : OverviewState
+    data class DisplayingSiteBook(val book: Book?, val inFavorites: Boolean) : OverviewState
+    data class DisplayingPrivateBook(val book: Book?, val inFavorites: Boolean) : OverviewState
+    data class Error(val text: String?) : OverviewState
 }
 
 sealed interface OverviewIntent {
@@ -32,7 +32,7 @@ enum class OverviewMode {
 }
 
 class OverviewViewModel(
-    private val id: UUID,
+    private val id: UUID?,
     private val mode: OverviewMode,
     private val siteBooksRepository: SiteBooksRepository,
     private val booksRepository: BooksRepository,
@@ -46,19 +46,20 @@ class OverviewViewModel(
                     .combine(whiteListRepository.checkIfFavorite(id)) { book, check ->
                         object {
                             val book: Book? = book
-                            val check: Boolean? = check
+                            val check: Boolean = check
                         }
                     }
                     .onEach {
                         state {
-                            if (it.book != null && it.check != null) {
+                            if (it.book != null) {
                                 OverviewState.DisplayingPrivateBook(it.book, it.check)
+                            } else {
+                                OverviewState.Error("book is null")
                             }
-                            OverviewState.Error(null)
                         }
                     }
                     .catch {
-                        OverviewState.Error(it as? Exception)
+                        OverviewState.Error(it.message)
                     }
                     .flowOn(Dispatchers.Default)
                     .launchIn(this)
@@ -69,19 +70,20 @@ class OverviewViewModel(
                     .combine(whiteListRepository.checkIfFavorite(id)) { book, check ->
                         object {
                             val book: Book? = book
-                            val check: Boolean? = check
+                            val check: Boolean = check
                         }
                     }
                     .onEach {
                         state {
-                            if (it.book != null && it.check != null) {
+                            if (it.book != null) {
                                 OverviewState.DisplayingSiteBook(it.book, it.check)
+                            } else {
+                                OverviewState.Error("book is null")
                             }
-                            OverviewState.Error(null)
                         }
                     }
                     .catch {
-                        OverviewState.Error(it as? Exception)
+                        OverviewState.Error(it.message)
                     }
                     .flowOn(Dispatchers.Default)
                     .launchIn(this)

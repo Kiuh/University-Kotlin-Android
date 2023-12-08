@@ -5,6 +5,6 @@ import kotlinx.coroutines.flow.Flow
 import java.util.*
 
 interface SiteBooksRepository {
-    fun getOneBook(id: UUID): Flow<Book?>
+    fun getOneBook(id: UUID?): Flow<Book?>
     fun getAllBooks(): Flow<List<Book>>
 }

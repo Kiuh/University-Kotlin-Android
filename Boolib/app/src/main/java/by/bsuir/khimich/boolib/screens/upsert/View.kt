@@ -20,9 +20,9 @@ import java.util.*
 
 @Composable
 fun UpsertScreen(
-    onSave: ((Book?) -> Unit)? = null,
-    onDelete: ((UUID?) -> Unit)? = null,
-    upsertState: UpsertState? = null,
+    onSave: (Book?) -> Unit,
+    onDelete: (UUID?) -> Unit,
+    upsertState: UpsertState,
 ) {
     when (upsertState) {
         is UpsertState.Loading -> {
@@ -34,22 +34,20 @@ fun UpsertScreen(
             val book = upsertState.book ?: Book.getNotFoundBook()
             UpsertScreenContent(onSave = onSave, onDelete = onDelete, startBook = book)
         }
-
-        else -> {}
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UpsertScreenContent(
-    onSave: ((Book) -> Unit)? = null,
-    onDelete: ((UUID?) -> Unit)? = null,
-    startBook: Book? = null,
+    onSave: (Book) -> Unit,
+    onDelete: (UUID?) -> Unit,
+    startBook: Book,
 ) {
-    var bookName by remember { mutableStateOf(startBook?.name ?: "ERROR") }
-    var numberText by remember { mutableStateOf(startBook?.lastPaper.toString()) }
-    var authorsText by remember { mutableStateOf(startBook?.authors?.joinToString("\n") ?: "ERROR") }
-    val checked = remember { mutableStateOf(startBook?.isRead ?: false) }
+    var bookName by remember { mutableStateOf(startBook.name) }
+    var numberText by remember { mutableStateOf(startBook.lastPaper.toString()) }
+    var authorsText by remember { mutableStateOf(startBook.authors.joinToString("\n")) }
+    val checked = remember { mutableStateOf(startBook.isRead) }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -84,7 +82,7 @@ fun UpsertScreenContent(
                             .width(200.dp)
                             .height(70.dp)
                             .padding(6.dp),
-                        onClick = { onDelete?.invoke(startBook?.id) }
+                        onClick = { onDelete.invoke(startBook.id) }
                     ) {
                         Text(
                             modifier = Modifier
@@ -100,13 +98,13 @@ fun UpsertScreenContent(
                             .height(70.dp)
                             .padding(6.dp),
                         onClick = {
-                            onSave?.invoke(
+                            onSave.invoke(
                                 Book(
                                     name = bookName,
                                     isRead = checked.value,
                                     lastPaper = numberText.toInt(),
                                     authors = listOf(authorsText),
-                                    id = startBook?.id ?: UUID.randomUUID()
+                                    id = startBook.id
                                 )
                             )
                         }
@@ -189,6 +187,6 @@ fun UpsertScreenContent(
 @Composable
 fun UpsertScreenPreview() {
     BoolibTheme {
-        UpsertScreen(upsertState = UpsertState.DisplayingBook(null))
+        UpsertScreen({}, {}, upsertState = UpsertState.DisplayingBook(null))
     }
 }

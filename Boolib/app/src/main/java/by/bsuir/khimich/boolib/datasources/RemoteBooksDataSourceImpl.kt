@@ -7,6 +7,7 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import java.util.*
@@ -49,8 +50,10 @@ internal class RemoteBooksDataSourceImpl(private val client: HttpClient) : Remot
         })
     }
 
-    override fun getOneBook(): Flow<Book?> {
-        TODO("Not yet implemented")
+    override fun getOneBook(id: UUID): Flow<Book?> {
+        return getBooks().map { books ->
+            books.find { it.id == id }
+        }
     }
 
     internal companion object {

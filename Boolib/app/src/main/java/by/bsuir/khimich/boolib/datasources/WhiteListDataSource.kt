@@ -5,7 +5,7 @@ import java.util.*
 
 interface WhiteListDataSource {
 
-    fun checkIfFavorite(): Flow<Boolean?>
+    fun checkIfFavorite(id: UUID): Flow<Boolean>
     suspend fun addToFavorites(id: UUID)
-    suspend fun addFromFavorites(id: UUID)
+    suspend fun removeFromFavorites(id: UUID)
 }

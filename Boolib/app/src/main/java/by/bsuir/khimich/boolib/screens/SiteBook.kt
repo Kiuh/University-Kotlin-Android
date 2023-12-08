@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -15,9 +16,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import by.bsuir.khimich.boolib.models.Book
 import by.bsuir.khimich.boolib.ui.theme.BoolibTheme
+import java.util.*
 
 @Composable
-fun SiteBookCard(book: Book, onClick: (Book) -> Unit) {
+fun SiteBookCard(book: Book, onClick: (Book) -> Unit, onInfo: (UUID) -> Unit) {
     Box(
         modifier =
         Modifier
@@ -63,6 +65,15 @@ fun SiteBookCard(book: Book, onClick: (Book) -> Unit) {
                 ) {
                     Icon(Icons.Default.Add, contentDescription = null)
                 }
+                FloatingActionButton(
+                    modifier = Modifier
+                        .padding(2.dp)
+                        .width(60.dp)
+                        .height(60.dp),
+                    onClick = { onInfo(book.id) }
+                ) {
+                    Icon(Icons.Default.Info, contentDescription = null)
+                }
             }
         }
     }
@@ -71,5 +82,5 @@ fun SiteBookCard(book: Book, onClick: (Book) -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun SiteBookCardPreview() {
-    BoolibTheme { SiteBookCard(Book.getNotFoundBook()) { } }
+    BoolibTheme { SiteBookCard(Book.getNotFoundBook(), { }) { } }
 }

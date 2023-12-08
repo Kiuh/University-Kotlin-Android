@@ -34,6 +34,7 @@ fun HomeScreen(
     onBookClick: (UUID?) -> Unit,
     toAboutScreen: () -> Unit,
     toSiteScreen: () -> Unit,
+    toOverviewScreen: (UUID?) -> Unit,
 ) {
     when (homeState) {
         is HomeState.Loading -> {
@@ -47,7 +48,8 @@ fun HomeScreen(
                 updateBook = { id -> onBookClick.invoke(id) },
                 addBook = { onBookClick.invoke(null) },
                 toAboutScreen = toAboutScreen,
-                toSiteScreen = toSiteScreen
+                toSiteScreen = toSiteScreen,
+                toOverviewScreen = toOverviewScreen
             )
         }
     }
@@ -62,6 +64,7 @@ fun HomeScreenContent(
     addBook: () -> Unit,
     toAboutScreen: () -> Unit,
     toSiteScreen: () -> Unit,
+    toOverviewScreen: (UUID?) -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     Scaffold(
@@ -143,7 +146,7 @@ fun HomeScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             items(books.count(), key = { books[it].id }) { index ->
-                BookCard(books[index], removeBook, updateBook)
+                BookCard(books[index], removeBook, updateBook, toOverviewScreen)
             }
         }
     }
@@ -158,6 +161,8 @@ fun HomeScreenContentPreview() {
             {},
             {},
             {},
-            {}, {})
+            {},
+            {},
+            {})
     }
 }

@@ -2,17 +2,10 @@ package by.bsuir.khimich.boolib
 
 import by.bsuir.khimich.boolib.database.core.AppDataBase
 import by.bsuir.khimich.boolib.database.daos.BookDao
-import by.bsuir.khimich.boolib.datasources.BooksDataSource
-import by.bsuir.khimich.boolib.datasources.BooksDataSourceImpl
-import by.bsuir.khimich.boolib.datasources.RemoteBooksDataSource
-import by.bsuir.khimich.boolib.datasources.RemoteBooksDataSourceImpl
-import by.bsuir.khimich.boolib.models.HomeViewModel
-import by.bsuir.khimich.boolib.models.SiteViewModel
-import by.bsuir.khimich.boolib.models.UpsertViewModel
-import by.bsuir.khimich.boolib.repositories.BooksRepository
-import by.bsuir.khimich.boolib.repositories.BooksRepositoryImpl
-import by.bsuir.khimich.boolib.repositories.SiteBooksRepository
-import by.bsuir.khimich.boolib.repositories.SiteBooksRepositoryImpl
+import by.bsuir.khimich.boolib.database.daos.WhiteListDao
+import by.bsuir.khimich.boolib.datasources.*
+import by.bsuir.khimich.boolib.models.*
+import by.bsuir.khimich.boolib.repositories.*
 import io.ktor.client.*
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -20,10 +13,18 @@ import org.koin.dsl.module
 val databaseModule = module {
     single<AppDataBase> { AppDataBase(context = get()) }
     single<BookDao> { get<AppDataBase>().bookDao() }
+    single<WhiteListDao> { get<AppDataBase>().whiteListDao() }
 }
 
 val siteDataBaseModule = module {
     single<HttpClient> { httpClientBuilder(json) }
+}
+
+val whiteListRepositoryModule = module {
+    includes(databaseModule)
+
+    single<WhiteListDataSource> { WhiteListDataSourceImpl(get<WhiteListDao>()) }
+    single<WhiteListRepository> { WhiteListRepositoryImpl(get<WhiteListDataSource>()) }
 }
 
 val booksRepositoryModule = module {
@@ -43,8 +44,10 @@ val siteBooksRepositoryModule = module {
 val appModule = module {
     includes(booksRepositoryModule)
     includes(siteBooksRepositoryModule)
+    includes(whiteListRepositoryModule)
 
     viewModel { HomeViewModel(get<BooksRepository>()) }
     viewModel { UpsertViewModel(get<BooksRepository>()) }
     viewModel { SiteViewModel(get<SiteBooksRepository>(), get<BooksRepository>()) }
+    viewModel { OverviewViewModel(it.getOrNull(), OverviewMode.FromLocal, get(), get(), get()) }
 }
